@@ -4,9 +4,13 @@
 castle-engine-output
 
 # Unix executable
-test-bars
-# Windows executable
-test-bars.exe
+globalrandom
+graphics_random_test
+random_speed_test
+random_threads_test
+testhash
+# Windows executables
+*.exe
 *.dbg
 # Library files placed alongside Windows executable
 *.dll
