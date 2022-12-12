@@ -43,16 +43,16 @@ type
       even if initialization happens absolutely simultaneously. }
     procedure Initialize(RandomSeed: LongWord = 0);
     { Returns random float value in the 0..1 range. }
-    function Random: single; overload;
+    function Random: Single; overload;
     { Returns random integer number in the 0..N-1 range. }
     function Random(N: LongInt): LongInt; overload;
     { A relatively slow procedure to get a 64 bit integer random number. }
-    function RandomInt64(N: int64): int64;
+    function RandomInt64(N: Int64): Int64;
     { A simple Yes/No function that with 50% chance returns true or false.
       Something like flipping a coin... }
-    function RandomBoolean: boolean;
+    function RandomBoolean: Boolean;
     { Randomly provides "-1", "0" or "1" with equal chances. }
-    function RandomSign: longint;
+    function RandomSign: LongInt;
     { Returns a random number in 1 .. High(LongWord) range. }
     function Random32bit: LongWord;
   private
@@ -75,12 +75,12 @@ type
     of the algorithm seed different from default)
   @returns(Unsigned 32-bit integer)
 }
-function StringToHash(const InputString: AnsiString; const Seed: LongWord=0): LongWord;
+function StringToHash(const InputString: AnsiString; const Seed: LongWord = 0): LongWord;
 
 { Single random instance. }
 function Rand: TCastleRandom;
 
-function Rnd: single; overload; deprecated 'use Rand.Random';
+function Rnd: Single; overload; deprecated 'use Rand.Random';
 function Rnd(N: LongInt): LongInt; overload; deprecated 'use Rand.Random';
 
 implementation
@@ -109,8 +109,8 @@ end;
 {$ENDIF}
 
 {$IFDEF USE_DEV_URANDOM}
-function DEV_URANDOM: longint;
-var DevRnd: file of integer;
+function DEV_URANDOM: LongInt;
+var DevRnd: file of Integer;
 begin
   { algorithm according to http://wiki.freepascal.org/Dev_random
    /dev/urandom is a native *nix very high-quality random number generator.
@@ -131,8 +131,8 @@ end;
   more comments than the code itself :)
   I hope I've made everything right :) At least formal tests show it is so.}
 var Store64bitSeed: QWord = 0; //this variable stores 64 bit seed for reusing
-   WaitForSeed: boolean = false;
-function Get_Randomseed: longint;
+   WaitForSeed: Boolean = false;
+function Get_Randomseed: LongInt;
 const DateMultiplier: QWord = 30000000;  // approximate accuracy of the date
       DateOrder: QWord = {$ifdef FPC}80000 * 30000000{$else}2400000000000{$endif}; // order of the "now*date_multiplier" variable
       {p.s. date_order will be true until year ~2119}
@@ -161,7 +161,7 @@ begin
    xorshift algorithm are not too different,
    but we want them really independent for random seed initialization.
    So, multiple xorshift64 will take this "little" difference and eventually
-   transform it into truly unpredictable number in 1..high(QWORD) range}
+   transform it into truly unpredictable number in 1..high(QWord) range}
 
   b64 := c64;   //and use our another random seed based on current thread memory allocation
   {can this actually damage randomness in case of randomization happens only once
@@ -208,14 +208,14 @@ begin
      and add a few xorshift64-cycles just for fun in case it will.}
     while (c64 > High(QWord) - DateOrder) do XorShift64;
 
-    {to kill a random discretness introduced by gettickcount64 we add "now".
+    {to kill a random discreteness introduced by gettickcount64 we add "now".
      "now" and gettickcount64 are not independent and, in fact, change
      synchronously. But after several xorshift64-s c64 has no information
      left off gettickcount64 and therefore we introduce an additional
      semi-independent shift into the random seed}
     c64 := c64 + QWord(Round(CastleNow * DateMultiplier));
     {now we are sure that the player will get a different random seed even
-     in case he/she launches the game exactly at the same milisecond since
+     in case he/she launches the game exactly at the same millisecond since
      the OS startup - different date&time will shift the random seed...
      unless he/she deliberately sets the date&time&tick to some specific value}
 
@@ -234,7 +234,7 @@ begin
     {cycle everything one more time}
     XorShift64;
     {leave higher 32-bits of c64 as a true random seed}
-    Result := longint(c64 shr 32);
+    Result := LongInt(c64 shr 32);
   until Result <> 0;
   {and strictly demand it's not zero!
    adding a few XorShift64-cycles in case it does.}
@@ -246,7 +246,7 @@ begin
 end;
 {$ENDIF}
 
-function TCastleRandom.GetRandomSeed: longint;
+function TCastleRandom.GetRandomSeed: LongInt;
 begin
   {$IFDEF USE_DEV_URANDOM}
     { guarantees initialization with absolutely random number provided by
@@ -281,16 +281,16 @@ begin
   Result := LongWord(Seed);
 end;
 
-function TCastleRandom.Random: single;
-const Divisor: single = 1 / MaxInt;
+function TCastleRandom.Random: Single;
+const Divisor: Single = 1 / MaxInt;
 begin
   XorShiftCycle;
   Result := Divisor * LongInt(Seed shr 1);       // note: we discard 1 bit of accuracy to gain speed
   //Result := Divisor * LongInt(XorShift shr 1);    // works slower
 end;
 
-{Result := LongWord((int64(Seed)*N) shr 32)// := seed mod N; works slower
-//Result := Longint((int64(XorShift)*N) shr 32) // works slower}
+{Result := LongWord((Int64(Seed)*N) shr 32)// := seed mod N; works slower
+//Result := LongInt((Int64(XorShift)*N) shr 32) // works slower}
 
 // Adding  {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF} makes this procedure
 //  +35% effective. But I don't think it's a good idea
@@ -306,7 +306,7 @@ end;
 { Works >10 times slower comparing to 32 bit version. And even slower than float version.
   Another problem is that it cycles the seed twice which might cause
   strange results if exact reproduction of the random sequence is required }
-function TCastleRandom.RandomInt64(N: int64): int64;
+function TCastleRandom.RandomInt64(N: Int64): Int64;
 var c64: QWord;
   procedure XorShift64; {$ifdef FPC}{$ifdef SUPPORTS_INLINE} inline; {$endif}{$endif}
   begin
@@ -316,15 +316,15 @@ var c64: QWord;
   end;
 begin
   {we need to do it even if N=0..1 to cycle 32bit random seed twice as expected}
-  c64 := qword(Random32bit) or (qword(Random32bit) shl 32);
+  c64 := QWord(Random32bit) or (QWord(Random32bit) shl 32);
   if N > 1 then begin
     {adding a XorShift64 cycle guarantees us that c64 is truly random
-     in range 1..high(QWORD)
+     in range 1..high(QWord)
      but slows down execution by ~10%}
     XorShift64;
     {in contrast to SysUtils we make it a true 64-bit random, not a fake 63 bit :)
-     There can be no overflow here, because N is int64 and it can't be
-     larger than (High(QWORD) div 2), i.e. we can never get "negative" result
+     There can be no overflow here, because N is Int64 and it can't be
+     larger than (High(QWord) div 2), i.e. we can never get "negative" result
      as the first bit of the result will be always zero}
     Result := Int64(QWord(c64) mod QWord(N))
   end
@@ -332,13 +332,13 @@ begin
     Result := 0;
 end;
 
-function TCastleRandom.RandomBoolean: boolean;
+function TCastleRandom.RandomBoolean: Boolean;
 begin
   XorShiftCycle;
-  Result := Seed and {$ifdef FPC}%1{$else}1{$endif} = 0   //can be %11 to provide for 1/4, %111 - 1/8 probability ...
+  Result := Seed and {$ifdef FPC}%1{$else}1{$endif} = 0;   //can be %11 to provide for 1/4, %111 - 1/8 probability ...
 end;
 
-function TCastleRandom.RandomSign: longint;
+function TCastleRandom.RandomSign: LongInt;
 begin
   XorShiftCycle;
   Result := LongInt((Int64(LongWord(Seed))*3) shr 32)-1
@@ -377,8 +377,8 @@ begin
     CycleHash(H);
     H := H xor K;         //merge data into hash
 
-    inc(P, 4); //advance to next character
-    dec(I, 4); //to gain some speed we don't use p>pmax-4 check
+    Inc(P, 4); //advance to next character
+    Dec(I, 4); //to gain some speed we don't use p>pmax-4 check
   end;
 
   //upmix 0..3 final bytes of data to hash
