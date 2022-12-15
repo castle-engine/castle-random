@@ -18,9 +18,6 @@ unit CastleRandom;
 
 interface
 
-{$I castleconf.inc}
-{$I norqcheckbegin.inc} // the whole unit should be used without overflow checking, for speed
-
 type
   { Custom, fast random number generator.
     Implementation of XorShift algorithm for random numbers generation.
@@ -430,8 +427,6 @@ begin
     GlobalRandom := TCastleRandom.Create;
   Result := GlobalRandom.Random(N);
 end;
-
-{$I norqcheckend.inc}
 
 initialization
 
