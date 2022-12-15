@@ -31,7 +31,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="testhash.pas"/>
         <IsPartOfProject Value="True"/>
@@ -43,6 +43,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="../../castle-random/castlerandom.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="CastleRandom"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -51,6 +56,7 @@
       <Filename Value="testhash"/>
     </Target>
     <SearchPaths>
+      <OtherUnitFiles Value="../../castle-random"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

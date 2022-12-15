@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="graphics_random_test.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -48,6 +48,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="GraphicsTestUnit"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="../../castle-random/castlerandom.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="CastleRandom"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -56,6 +61,7 @@
       <Filename Value="graphics_random_test"/>
     </Target>
     <SearchPaths>
+      <OtherUnitFiles Value="../../castle-random"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
