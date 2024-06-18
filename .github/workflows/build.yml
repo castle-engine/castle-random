@@ -1,0 +1,48 @@
+# ----------------------------------------------------------------------------
+# GitHub Actions workflow to test building.
+# Using latest Castle Game Engine ( https://castle-engine.io/ ) snapshot.
+#
+# See docs:
+# - https://castle-engine.io/github_actions
+# - https://docs.github.com/en/actions
+# ----------------------------------------------------------------------------
+
+name: Test Building
+
+on: [pull_request, push]
+
+jobs:
+  # Build for platforms supported by
+  # CGE Docker image https://hub.docker.com/r/kambi/castle-engine-cloud-builds-tools/ .
+  build-using-docker:
+    name: Build Using Docker
+    runs-on: ubuntu-latest
+    container: kambi/castle-engine-cloud-builds-tools:cge-unstable
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build globalrandom
+      run: |
+        cd globalrandom
+        castle-engine package
+
+    - name: Build graphics_random_test
+      run: |
+        cd graphics_random_test
+        castle-engine package
+
+    - name: Build random_speed_test
+      run: |
+        cd random_speed_test
+        castle-engine package
+
+    - name: Build random_threads_test
+      run: |
+        cd random_threads_test
+        castle-engine package
+
+    - name: Build testhash
+      run: |
+        cd testhash
+        castle-engine package
+

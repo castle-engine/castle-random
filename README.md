@@ -6,4 +6,4 @@ Note, that Xoshiro128 algorithm implemented in the newest FPC version is approxi
 
 # License
 
-License is the same as Castle Game Engine, unless explicitly specified, see https://castle-engine.io/license.php
+License is the same as Castle Game Engine, unless explicitly specified, see https://castle-engine.io/license
