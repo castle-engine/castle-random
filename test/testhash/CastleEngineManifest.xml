@@ -4,4 +4,9 @@
   build_using_lazbuild="true"
 >
   <data exists="false" />
+  <compiler_options>
+    <search_paths>
+      <path value="../../castle-random"/>
+    </search_paths>
+  </compiler_options>
 </project>
