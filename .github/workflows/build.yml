@@ -23,26 +23,26 @@ jobs:
 
     - name: Build globalrandom
       run: |
-        cd globalrandom
+        cd test/globalrandom
         castle-engine package
 
     - name: Build graphics_random_test
       run: |
-        cd graphics_random_test
+        cd test/graphics_random_test
         castle-engine package
 
     - name: Build random_speed_test
       run: |
-        cd random_speed_test
+        cd test/random_speed_test
         castle-engine package
 
     - name: Build random_threads_test
       run: |
-        cd random_threads_test
+        cd test/random_threads_test
         castle-engine package
 
     - name: Build testhash
       run: |
-        cd testhash
+        cd test/testhash
         castle-engine package
 
