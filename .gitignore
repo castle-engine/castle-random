@@ -1,14 +1,14 @@
 # Files ignored by GIT version control
 
 # Build tool (and compiler) temporary output
-castle-engine-output
+castle-engine-output/
 
 # Unix executable
-globalrandom
-graphics_random_test
-random_speed_test
-random_threads_test
-testhash
+test/globalrandom/globalrandom
+test/graphics_random_test/graphics_random_test
+test/random_speed_test/random_speed_test
+test/random_threads_test/random_threads_test
+test/testhash/testhash
 # Windows executables
 *.exe
 *.dbg
@@ -17,9 +17,14 @@ testhash
 # Auto-updated by CGE tools when compiling Windows build
 castle-auto-generated-resources.res
 
+# lazarus stuff
 *.lps
 *.res
-backup
+backup/
+lib/
 
 # May contain secret data (your Android keystore username and password)
 AndroidSigningProperties.txt
+
+# vscode
+.vscode/
