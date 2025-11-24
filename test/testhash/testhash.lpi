@@ -25,7 +25,7 @@
     </RunParams>
     <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="castle_base"/>
+        <PackageName Value="castle_engine_base"/>
       </Item1>
       <Item2>
         <PackageName Value="LCL"/>
